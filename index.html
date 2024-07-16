@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			.father{
+				width: 680px;
+				height: 330px;
+				background-color: chocolate;
+				position: relative;
+			}
+			.box{
+				width: 200px;
+				height: 300px;
+				border: 5px solid black;
+				float: left;
+				overflow: hidden;
+				margin-left: 10px;
+				border-radius: 15%;
+				margin-top: 10px;
+			}
+			.imgbox{
+				width: 200px;
+				height: 3300px;
+				background-color: white;
+			}
+			button{
+				position: absolute;
+				left: 300px;
+			}
+			
+			.transtion{
+				transition: all ease 3s ;
+			}
+			#point{
+				width: 210px;
+				height: 70px;
+				border: 3px dashed red; 
+				position: absolute;
+				top: 360px;
+				left: 20px;
+			}
+			p{
+				font-size: 30px;
+				font-weight: bold;
+				line-height: 5px;
+				margin-left: 20px;
+			}
+			span{
+				color: red;
+			}
+			#left1{
+				width: 40px;
+				height: 15px;
+				position: relative;
+				background-color: black;
+				left: 680px;
+				top: -150px;
+			}
+			#left2{
+				width: 15px;
+				height: 80px;
+				position: relative;
+				background-color: black;
+				left: 720px;
+				top: -230px;
+				animation: null linear 0.5s;
+			}
+			#left3{
+				width: 50px;
+				height: 50px;
+				position: relative;
+				background-color: red;
+				border-radius: 50%;
+				left: 700px;
+				top: -340px;
+				animation: null linear 0.5s;
+				border: 1px solid black;
+			}
+			@keyframes redfrom{
+				from{top: -340px;}
+				to{top: -190px}
+			}
+			@keyframes redto{
+				from{top: -190px;}
+				to{top: -340px}
+			}
+			@keyframes blackfrom{
+				from{top: -230px;height: 80px;}
+				to{top: -150px;height: 0px;}
+			}
+			@keyframes blackto{
+				from{top: -150px;height: 0px;}
+				to{top: -230px;height: 80px;}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="father">
+			<div class="box">
+				<div class="imgbox">
+					<img src="img/777.png" alt="" />
+					<img src="img/BAR.png" alt="" />
+					<img src="img/left.png" alt="" />
+					<img src="img/star.png" alt="" />
+					<img src="img/flash.png" alt="" />
+					<img src="img/777.png" alt="" />
+					<img src="img/BAR.png" alt="" />
+					<img src="img/left.png" alt="" />
+					<img src="img/left.png" alt="" />
+					<img src="img/star.png" alt="" />
+					<img src="img/flash.png" alt="" />
+				</div>
+			</div>
+			<div class="box">
+				<div class="imgbox">
+					<img src="img/777.png" alt="" />
+					<img src="img/BAR.png" alt="" />
+					<img src="img/left.png" alt="" />
+					<img src="img/star.png" alt="" />
+					<img src="img/flash.png" alt="" />
+					<img src="img/777.png" alt="" />
+					<img src="img/BAR.png" alt="" />
+					<img src="img/left.png" alt="" />
+					<img src="img/left.png" alt="" />
+					<img src="img/star.png" alt="" />
+					<img src="img/flash.png" alt="" />
+				</div>
+			</div>
+			<div class="box">
+				<div class="imgbox">
+					<img src="img/777.png" alt="" />
+					<img src="img/BAR.png" alt="" />
+					<img src="img/left.png" alt="" />
+					<img src="img/star.png" alt="" />
+					<img src="img/flash.png" alt="" />
+					<img src="img/777.png" alt="" />
+					<img src="img/BAR.png" alt="" />
+					<img src="img/left.png" alt="" />
+					<img src="img/left.png" alt="" />
+					<img src="img/star.png" alt="" />
+					<img src="img/flash.png" alt="" />
+				</div>
+			</div>
+		</div>
+		<div id="left1"></div>
+		<div id="left2"></div>
+		<div id="left3"></div>
+		<div id="point">
+			<p>得分：<span>0</span></p>
+		</div>
+	</body>
+	<script>
+		//获取三个转轮载体
+		let imgbox1 = document.querySelectorAll(".imgbox")[0]
+		let imgbox2 = document.querySelectorAll(".imgbox")[1]
+		let imgbox3 = document.querySelectorAll(".imgbox")[2]
+		//获取转轮里面所有的img
+		let imgs1 = imgbox1.children
+		let imgs2 = imgbox2.children
+		let imgs3 = imgbox3.children
+		//为列表里面的图片进行随机赋值
+		function setImg(imgs){
+			let imgarr = ["img/777.png",
+			              "img/BAR.png",
+			              "img/left.png",
+						  "img/star.png",
+						  "img/flash.png"]
+			for (let i = 0; i < imgs.length; i++) {
+				imgs[i].src = imgarr[Math.floor(Math.random() * imgarr.length)]
+			}
+		}
+		//设置列表的初始高度
+		function setImgBoxTop(imgbox){
+			let imgheight = 300
+			let boxheight = imgbox.scrollHeight
+			imgbox.style.transform = `translateY(${-boxheight + imgheight}px)`
+		}
+		//移动位置并添加过度动画
+		function moveImgBoxTop(imgbox){
+			imgbox.classList.add("transtion")
+			imgbox.style.transform = `translateY(0px)`
+		}
+		//还原
+		function returnBox(imgbox,imgs){
+			imgbox.classList.remove("transtion")
+			setImgBoxTop(imgbox)
+			setImg(imgs)
+		}
+		//获取最后显示的图片信息
+		function getImgSrc(imgs){
+			console.log(imgs[0])
+			return imgs[0].src
+		}
+		function points(imgsA,imgsB,imgsC){
+			let userpoint = 0
+			let point777 = /777.png$/
+			let pointBAR = /BAR.png$/
+			if(getImgSrc(imgsA) == getImgSrc(imgsB) || 
+			   getImgSrc(imgsA) == getImgSrc(imgsC) || 
+			   getImgSrc(imgsB) == getImgSrc(imgsC)){
+				userpoint = userpoint + 10
+			}
+			if(getImgSrc(imgsA) == getImgSrc(imgsB) == getImgSrc(imgsC)){
+				userpoint = userpoint + 20
+			}
+			if(point777.test(getImgSrc(imgsA)) == true &&
+			   point777.test(getImgSrc(imgsB)) == true &&
+			   point777.test(getImgSrc(imgsC)) == true){
+				userpoint = userpoint + 1000
+			}
+			if(pointBAR.test(getImgSrc(imgsA)) == true &&
+			   pointBAR.test(getImgSrc(imgsB)) == true &&
+			   pointBAR.test(getImgSrc(imgsC)) == true){
+				userpoint = userpoint * 2
+			}
+			return userpoint
+		}
+		//设置拉杆动画效果
+		let left2 = document.querySelector("#left2")
+		let left3 = document.querySelector("#left3")
+		function MyAnimation(){
+			left2.style.animationName = "blackfrom"
+			left3.style.animationName = "redfrom"
+			setTimeout(()=>{
+				left2.style.animationName = "blackto"
+				left3.style.animationName = "redto"
+			},500)
+		}
+		//添加点击事件
+		let btn  = document.querySelector("#left3")
+		let span = document.querySelector("#point p span")
+		let flag = true
+		let userscore = 0
+		btn.addEventListener("click",()=>{
+			MyAnimation()
+			if (flag == true) {
+				flag = false
+				moveImgBoxTop(imgbox1)
+				moveImgBoxTop(imgbox2)
+				imgbox2.style.transitionDelay = "0.5s"
+				moveImgBoxTop(imgbox3)
+				imgbox3.style.transitionDelay = "1s"
+				userscore = userscore + points(imgs1,imgs2,imgs3)
+				setTimeout(()=>span.innerHTML = userscore,4000)
+			} else{
+				flag = true
+				returnBox(imgbox1,imgs1)
+				returnBox(imgbox2,imgs2)
+				returnBox(imgbox3,imgs3)
+			}
+		})
+		returnBox(imgbox1,imgs1)
+		returnBox(imgbox2,imgs2)
+		returnBox(imgbox3,imgs3)
+	</script>
+</html>
